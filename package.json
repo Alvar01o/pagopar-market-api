@@ -1,0 +1,75 @@
+{
+  "name": "transactions-manager",
+  "version": "0.1.0",
+  "description": "An API built with NodeJS, Express, MongoDB and TypeScript",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev-tsc": "ts-node ./src/server.ts",
+    "build": "tsc",
+    "nodemon": "node ./dist/src/server.js",
+    "start": "npm run build && npm run nodemon",
+    "test": "jest --forceExit --coverage --verbose",
+    "watch-test": "npm run test -- --watchAll",
+    "watch": "tsc -w",
+    "lint": "tslint 'packages/**/*.js' 'packages/**/*.ts' -c tslint.json --fix"
+  },
+  "engines": {
+    "node": "10.15.1",
+    "npm": "6.4.1"
+  },
+  "dependencies": {
+    "@types/compression": "0.0.36",
+    "@types/cors": "^2.8.5",
+    "@types/dotenv": "^6.1.1",
+    "@types/express": "^4.17.0",
+    "@types/helmet": "0.0.43",
+    "@types/moment-timezone": "^0.5.12",
+    "@types/mongoose": "^5.5.6",
+    "@types/request-promise": "^4.1.44",
+    "@types/serve-favicon": "^2.2.30",
+    "@types/sha1": "^1.1.2",
+    "@types/shortid": "0.0.29",
+    "@types/validator": "^10.11.1",
+    "@types/winston": "^2.4.4",
+    "body-parser": "^1.19.0",
+    "chalk": "^2.4.2",
+    "compression": "^1.7.4",
+    "config": "^3.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "helmet": "^3.18.0",
+    "moment": "^2.24.0",
+    "moment-timezone": "^0.5.25",
+    "mongoose": "^5.6.0",
+    "mongoose-auto-increment": "^5.0.1",
+    "morgan": "^1.9.1",
+    "nodemon": "^1.19.1",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4",
+    "sha1": "^1.1.1",
+    "shortid": "^2.2.14",
+    "validator": "^11.0.0",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "@types/config": "0.0.34",
+    "@types/jest": "^24.0.15",
+    "axios": "^0.19.0",
+    "codelyzer": "5.1.0",
+    "husky": "^2.4.1",
+    "jest": "^24.8.0",
+    "prettier": "^1.18.2",
+    "pretty-quick": "^1.11.1",
+    "ts-jest": "^24.0.2",
+    "ts-node": "^8.3.0",
+    "tslint": "5.17.0",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.5.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged --verbose"
+    }
+  }
+}

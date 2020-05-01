@@ -1,0 +1,9 @@
+{
+    "host": "api.pagopar.zolutio.com",
+    "port": 3003,
+    "database": "mongodb+srv://user:dasIOasodi@cluster0-kssi0.gcp.mongodb.net/test?retryWrites=true&w=majority",
+    "URL_PAGOPAR_API": "https://api.pagopar.com/api/",
+    "TPU": "<publictoken>",
+    "TPV": "<privvateToken>"
+  }
+  
