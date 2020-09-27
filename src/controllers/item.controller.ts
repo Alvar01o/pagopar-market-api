@@ -1,10 +1,7 @@
 import { Request, Response } from 'express';
-import mongoose from 'mongoose';
 
 import ItemModel from '../models/item.model';
 import ProductoModel from '../models/producto.model';
-
-const ObjectId = mongoose.Types.ObjectId;
 
 export class ItemController {
   public async create(req: Request, res: Response) {

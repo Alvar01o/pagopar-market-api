@@ -18,7 +18,7 @@ import app from './app';
 import { logger } from './utils';
 
 const PORT = process.env.PORT || 3003;
-const HOST = config.get('host') || 'localhost';
+const HOST = app.get('env').toUpperCase() == 'DEVELOPMENT' ? 'localhost' : config.get('host');
 
 process.on('unhandledRejection', (reason, promise) => {
   const msg = `

@@ -14,12 +14,6 @@ import CompradorModel from '../models/comprador.model';
 import ItemModel, { IItem } from '../models/item.model';
 import PedidoModel from '../models/pedido.model';
 import OrdenModel from '../models/orden.model';
-
-/** interfaces */
-import IRespuestaPedido from '../interfaces/respuesta_pedido.interface';
-import IRespuestaPago from '../interfaces/respuesta_pago.interface';
-import IMetodoAex from '../interfaces/metodo_aex.interfaces';
-
 const ObjectId = mongoose.Types.ObjectId;
 
 const comprobaciondeToken = (hashPedido: String, token: String) => {
@@ -42,7 +36,7 @@ export class PagoparController {
     });
 
     let itemsId = [];
-    
+
     if (!isValidOperation) {
       return res.status(400).send({ error: 'Parameters error.' });
     }
@@ -54,7 +48,18 @@ export class PagoparController {
         itemsId.push(new ObjectId(element));
       });
 
-      const itemsInfo: any = await ItemModel.find({}, ['-__v','-_id','-createdAt','-updatedAt','-isDeleted','-peso','-largo','-ancho','-alto','-vendedor_email'])
+      const itemsInfo: any = await ItemModel.find({}, [
+        '-__v',
+        '-_id',
+        '-createdAt',
+        '-updatedAt',
+        '-isDeleted',
+        '-peso',
+        '-largo',
+        '-ancho',
+        '-alto',
+        '-vendedor_email'
+      ])
         .where('_id')
         .in(itemsId);
 
@@ -65,7 +70,13 @@ export class PagoparController {
         itemsInfo[index].public_key = config.get('TPU');
       });
 
-      const compradorInfo: any = await CompradorModel.findById(req.body.comprador, ['-__v',  '-_id',  '-createdAt',  '-updatedAt',  '-isDeleted']);
+      const compradorInfo: any = await CompradorModel.findById(req.body.comprador, [
+        '-__v',
+        '-_id',
+        '-createdAt',
+        '-updatedAt',
+        '-isDeleted'
+      ]);
       orden.compras_items = itemsInfo;
       orden.tipo_pedido = 'VENTA-COMERCIO';
       orden.fecha_maxima_pago = moment()

@@ -10,7 +10,7 @@ This is a own development to handle the PAGOPAR service.
 
 Use the node version manager called [nvm](https://github.com/creationix/nvm#installation) to manage multiple active `node.js` versions
 
-When the nvm is correctly installed proceed to install the version `10.15.1` of `node.js`
+When the nvm is correctly installed proceed to install the version >= `10.15.1` of `node.js`
 
 ```bash
 $ nvm install 10.15.1
@@ -50,8 +50,9 @@ Download the files into your local machine
 Enter the project directory and install the `node_modules`. Make sure you have already all the [requirements](#requirements) properly installed in your local machine first.
 
 ```bash
-$ cd pagopar-ts-zolutio/
+$ cd pagopar-market-api/
 $ npm install
+$ copy config/default.example.json config/default.json #load real database information
 $ npm run start
 ```
 
