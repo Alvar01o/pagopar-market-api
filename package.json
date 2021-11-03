@@ -49,7 +49,7 @@
     "request-promise": "^4.2.4",
     "sha1": "^1.1.1",
     "shortid": "^2.2.14",
-    "validator": "^11.0.0",
+    "validator": "^13.7.0",
     "winston": "^3.2.1"
   },
   "devDependencies": {
