@@ -117,3 +117,4 @@ dist
 _build
 _static
 _templates
+.aider*
