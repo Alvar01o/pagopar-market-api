@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 
 import ItemModel from '../models/item.model';
 import ProductoModel from '../models/producto.model';
+import loggerMiddleware from '../middlewares/logger';
 
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -10,8 +11,12 @@ export class ItemController {
   public async create(req: Request, res: Response) {
     const items = new ItemModel(req.body);
     const productID = req.body.id_producto;
-    //validacion para id_producto
+    // Validation for id_producto
     const producto = await ProductoModel.findOne({ _id: productID });
+    if (!producto) {
+      console.error('Product not found:', productID);
+      return res.status(404).send({ error: 'Product Not Found' });
+    }
     items.precio_total = Number(producto.precio) * Number(items.cantidad);
     items.nombre = producto.nombre;
     items.descripcion = producto.descripcion;
@@ -19,7 +24,8 @@ export class ItemController {
       await items.save();
       res.status(201).send(items);
     } catch (e) {
-      res.status(400).send(e);
+      console.error('Error creating item:', e);
+      res.status(500).send({ error: 'Internal Server Error' });
     }
   }
 
@@ -28,7 +34,8 @@ export class ItemController {
       const items = await ItemModel.find({});
       res.send(items);
     } catch (e) {
-      res.status(404).send();
+      console.error('Error fetching all items:', e);
+      res.status(500).send({ error: 'Internal Server Error' });
     }
   }
 
@@ -37,12 +44,14 @@ export class ItemController {
     try {
       const item = await ItemModel.findById(ID);
       if (!item) {
+        console.error('Item not found:', ID);
         res.status(404).send();
       } else {
         res.status(201).send(item);
       }
     } catch (error) {
-      res.status(400).send(error);
+      console.error('Error fetching item by ID:', error);
+      res.status(500).send({ error: 'Internal Server Error' });
     }
   }
 
@@ -55,18 +64,24 @@ export class ItemController {
     });
 
     if (!isValidOperation) {
-      return res.status(400).send({ error: 'Invalid Operation' });
+      console.error('Invalid operation:', updates);
+      res.status(400).send({ error: 'Invalid Operation' });
     }
 
     try {
       const item = await ItemModel.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
       if (!item) {
+        console.error('Item not found:', req.params.id);
         res.status(404).send();
       } else {
         res.send(item);
       }
     } catch (e) {
-      res.status(404).send(e);
+      console.error('Error patching item by ID:', e);
+      res.status(500).send({ error: 'Internal Server Error' });
     }
   }
+
+  // Add logging middleware
+  public useLoggerMiddleware = loggerMiddleware;
 }

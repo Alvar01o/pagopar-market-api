@@ -1,15 +1,16 @@
 import { Request, Response } from 'express';
 import ProductoModel from '../models/producto.model';
+import loggerMiddleware from '../middlewares/logger';
 
 export class ProductoController {
   public async create(req: Request, res: Response) {
     const items = new ProductoModel(req.body);
-    console.log(req.body);
     try {
       await items.save();
       res.status(201).send(items);
     } catch (e) {
-      res.status(400).send(e);
+      console.error('Error creating producto:', e);
+      res.status(500).send({ error: 'Internal Server Error' });
     }
   }
 
@@ -18,7 +19,8 @@ export class ProductoController {
       const items = await ProductoModel.find({});
       res.send(items);
     } catch (e) {
-      res.status(404).send();
+      console.error('Error fetching all productos:', e);
+      res.status(500).send({ error: 'Internal Server Error' });
     }
   }
 
@@ -27,12 +29,14 @@ export class ProductoController {
     try {
       const item = await ProductoModel.findById(ID);
       if (!item) {
+        console.error('Producto not found:', ID);
         res.status(404).send();
       } else {
         res.status(201).send(item);
       }
     } catch (error) {
-      res.status(400).send(error);
+      console.error('Error fetching producto by ID:', error);
+      res.status(500).send({ error: 'Internal Server Error' });
     }
   }
 
@@ -45,18 +49,24 @@ export class ProductoController {
     });
 
     if (!isValidOperation) {
-      return res.status(400).send({ error: 'Invalid Operation' });
+      console.error('Invalid operation:', updates);
+      res.status(400).send({ error: 'Invalid Operation' });
     }
 
     try {
       const item = await ProductoModel.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
       if (!item) {
+        console.error('Producto not found:', req.params.id);
         res.status(404).send();
       } else {
         res.send(item);
       }
     } catch (e) {
-      res.status(404).send(e);
+      console.error('Error patching producto by ID:', e);
+      res.status(500).send({ error: 'Internal Server Error' });
     }
   }
+
+  // Add logging middleware
+  public useLoggerMiddleware = loggerMiddleware;
 }
